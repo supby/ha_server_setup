@@ -13,7 +13,11 @@ serial:
   port: >-
     /dev/ttyACM0
 devices:  
-advanced:
+advanced:  
+  pan_id: GENERATE  
+  ext_pan_id: GENERATE
+  channel: 11
+  network_key: GENERATE
   publish_raw_data: true
   homeassistant_legacy_triggers: false
   ikea_ota_use_test_url: false
