@@ -1,0 +1,33 @@
+homeassistant: false
+permit_join: false
+frontend:
+  port: 8081
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://mqtt
+  include_device_information: true
+  keepalive: 60
+  reject_unauthorized: true
+  version: 4
+serial:
+  port: >-
+    /dev/ttyACM0
+devices:  
+advanced:
+  publish_raw_data: true
+  homeassistant_legacy_triggers: false
+  ikea_ota_use_test_url: false
+  log_syslog:
+    app_name: Zigbee2MQTT
+    eol: /n
+    host: localhost
+    localhost: localhost
+    path: /dev/log
+    pid: process.pid
+    port: 123
+    protocol: tcp4
+    type: '5424'
+  legacy_api: false
+  log_level: error
+  homeassistant_legacy_entity_attributes: false
+external_converters: []
