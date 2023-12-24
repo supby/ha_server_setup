@@ -3,6 +3,9 @@ services:
   mqtt:
     container_name: mqtt
     image: eclipse-mosquitto
+    restart: unless-stopped
+    networks:
+      - internal
     ports:
       - "1883:1883"
       - "9001:9001"
@@ -14,6 +17,8 @@ services:
   zigbee2mqtt:
     container_name: zigbee2mqtt
     image: koenkk/zigbee2mqtt
+    networks:
+      - internal
     restart: unless-stopped
     devices:
       - "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_6ab65cf94898ec11aed49fd044d80d13-if00-port0:/dev/ttyACM0"
@@ -30,6 +35,8 @@ services:
   zigbee2mqtt_2:
     container_name: zigbee2mqtt_2
     image: koenkk/zigbee2mqtt
+    networks:
+      - internal
     restart: unless-stopped
     devices:
       - "/dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_c26e809bff93eb11a2dfb15b3d98b6d1-if00-port0:/dev/ttyACM0"
@@ -47,6 +54,8 @@ services:
     container_name: webthings-gateway
     image: webthingsio/gateway:latest
     restart: unless-stopped
+    networks:
+      - internal
     ports:
       - "8080:8080"
       - "4443:4443"
@@ -63,6 +72,9 @@ services:
   node-red:
     container_name: node-red
     image: nodered/node-red:latest
+    restart: unless-stopped
+    networks:
+      - internal
     environment:
       - TZ=Europe/Warsaw
     ports:
@@ -73,6 +85,9 @@ services:
   influxdb:
     container_name: influxdb
     image: influxdb:latest
+    restart: unless-stopped
+    networks:
+      - internal
     environment:
       - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME}
       - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
@@ -83,6 +98,35 @@ services:
       - $(pwd)/ha_server_data/influx/config/config.yml:/etc/influxdb2/config.yml
     ports:
       - "8086:8086"
+
+  mdns-reflector:
+    container_name: mdns-reflector
+    image: flungo/avahi
+    restart: unless-stopped
+    environment:
+      - REFLECTOR_ENABLE_REFLECTOR=yes
+    networks:
+      internal:
+      physical:
+        # ipv4_address: 10.0.0.10
+
+
+
+networks:
+  internal:
+    name: internal
+    driver: bridge
+
+  physical:
+    name: physical
+    driver: macvlan
+    driver_opts:
+      parent: ${HOST_PHY_INTERFACE} # set to host phy interface
+    ipam:
+      config:
+        - subnet: "10.0.0.0/24"          
+          gateway: "10.0.0.1"
+
     
     
       
