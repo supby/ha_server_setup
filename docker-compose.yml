@@ -21,7 +21,7 @@ services:
       - internal
     restart: unless-stopped
     devices:
-      - "/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_6ab65cf94898ec11aed49fd044d80d13-if00-port0:/dev/ttyACM0"
+      - ${Z2M_DEV:?required}:/dev/ttyACM0
     ports:
       - 8081:8080
     volumes:
@@ -38,8 +38,8 @@ services:
     networks:
       - internal
     restart: unless-stopped
-    devices:
-      - "/dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_c26e809bff93eb11a2dfb15b3d98b6d1-if00-port0:/dev/ttyACM0"
+    devices:      
+      - ${Z2M_2_DEV:?required}:/dev/ttyACM0
     ports:
       - 8082:8080
     volumes:
@@ -89,8 +89,8 @@ services:
     networks:
       - internal
     environment:
-      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME}
-      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME:?required}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD:?required}
       - DOCKER_INFLUXDB_INIT_ORG=sensors_data
       - DOCKER_INFLUXDB_INIT_BUCKET=sensors_data
     volumes:      
@@ -121,10 +121,10 @@ networks:
     name: physical
     driver: macvlan
     driver_opts:
-      parent: ${HOST_PHY_INTERFACE} # set to host phy interface
+      parent: ${HOST_PHY_INTERFACE:?required}
     ipam:
       config:
-        - subnet: "10.0.0.0/24"          
+        - subnet: "10.0.0.0/24"
           gateway: "10.0.0.1"
 
     
