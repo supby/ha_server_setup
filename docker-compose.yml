@@ -10,9 +10,9 @@ services:
       - "1883:1883"
       - "9001:9001"
     volumes:
-      - $(pwd)/ha_server_data/mosquitto/config:/mosquitto/config:rw
-      - $(pwd)/ha_server_data/mosquitto/data:/mosquitto/data:rw
-      - $(pwd)/ha_server_data/mosquitto/log:/mosquitto/log:rw
+      - ./ha_server_data/mosquitto/config:/mosquitto/config:rw
+      - ./ha_server_data/mosquitto/data:/mosquitto/data:rw
+      - ./ha_server_data/mosquitto/log:/mosquitto/log:rw
 
   zigbee2mqtt:
     container_name: zigbee2mqtt
@@ -25,7 +25,7 @@ services:
     ports:
       - 8081:8080
     volumes:
-      - $(pwd)/ha_server_data/zigbee2mqtt/data:/app/data
+      - ./ha_server_data/zigbee2mqtt_data:/app/data
       - /run/udev:/run/udev:ro
     environment:
       - TZ=Europe/Warsaw
@@ -43,7 +43,7 @@ services:
     ports:
       - 8082:8080
     volumes:
-      - $(pwd)/ha_server_data/zigbee2mqtt_2/data:/app/data
+      - ./ha_server_data/zigbee2mqtt_2_data:/app/data
       - /run/udev:/run/udev:ro
     environment:
       - TZ=Europe/Warsaw
@@ -62,7 +62,7 @@ services:
     environment:
       - TZ=Europe/Warsaw
     volumes:
-      - $(pwd)/ha_server_data/webthings:/home/node/.webthings
+      - ./ha_server_data/webthings:/home/node/.webthings
     logging:
       driver: "json-file"
       options:
@@ -80,7 +80,7 @@ services:
     ports:
       - "1880:1880"
     volumes:
-      - $(pwd)/ha_server_data/nodered:/data
+      - ./ha_server_data/nodered:/data
 
   influxdb:
     container_name: influxdb
@@ -94,8 +94,8 @@ services:
       - DOCKER_INFLUXDB_INIT_ORG=sensors_data
       - DOCKER_INFLUXDB_INIT_BUCKET=sensors_data
     volumes:      
-      - $(pwd)/ha_server_data/influx/data:/var/lib/influxdb2
-      - $(pwd)/ha_server_data/influx/config/config.yml:/etc/influxdb2/config.yml
+      - ./ha_server_data/influx/data:/var/lib/influxdb2
+      - ./ha_server_data/influx/config/config.yml:/etc/influxdb2/config.yml
     ports:
       - "8086:8086"
 
