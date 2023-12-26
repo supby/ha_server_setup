@@ -8,7 +8,6 @@ services:
       - internal
     ports:
       - "1883:1883"
-      - "9001:9001"
     volumes:
       - ./ha_server_data/mosquitto/config:/mosquitto/config:rw
       - ./ha_server_data/mosquitto/data:/mosquitto/data:rw
