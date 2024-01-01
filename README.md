@@ -11,7 +11,14 @@ Example of `docker-compose` configuration to run home automation server based on
 
 ## Pre-requesties
 
-Create `.env` file based on `.env.example`
+- Create `.env` file based on `.env.example`
+- Set mqtt username and password from `.env` in `zigbee2mqtt` configs:
+  ```
+  mqtt:
+    ...
+    user: my_user
+    password: my_password
+  ```
 
 ## Run
 

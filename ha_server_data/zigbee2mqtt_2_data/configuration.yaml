@@ -9,6 +9,8 @@ mqtt:
   keepalive: 60
   reject_unauthorized: true
   version: 4
+  user: my_user
+  password: my_password
 serial:
   port: >-
     /dev/ttyACM0

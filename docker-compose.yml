@@ -3,15 +3,22 @@ services:
   mqtt:
     container_name: mqtt
     image: eclipse-mosquitto
+    entrypoint: >
+        sh -c "mkdir -p /etc/mosquitto &&
+               chown mosquitto /etc/mosquitto/ &&               
+               mosquitto_passwd -c -b /etc/mosquitto/passwd ${MQTT_USER:?required} ${MQTT_PASSWORD:?required} &&
+               chown mosquitto /etc/mosquitto/passwd &&
+               chmod 0700 /etc/mosquitto/passwd &&
+               /usr/sbin/mosquitto -c /mosquitto/config/mosquitto.conf"
     restart: unless-stopped
     networks:
       - internal
     ports:
       - "1883:1883"
     volumes:
-      - ./ha_server_data/mosquitto/config:/mosquitto/config:rw
-      - ./ha_server_data/mosquitto/data:/mosquitto/data:rw
-      - ./ha_server_data/mosquitto/log:/mosquitto/log:rw
+      - ./ha_server_data/mosquitto/config:/mosquitto/config
+      - ./ha_server_data/mosquitto/data:/mosquitto/data
+      - ./ha_server_data/mosquitto/log:/mosquitto/log
 
   zigbee2mqtt:
     container_name: zigbee2mqtt
