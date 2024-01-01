@@ -22,6 +22,4 @@ Example of `docker-compose` configuration to run home automation server based on
 
 ## Run
 
-`sudo docker-compose up -d`
-
-
+`sudo ./run.sh`
