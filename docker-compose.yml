@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   mqtt:
-    container_name: mqtt
+    container_name: ${CLUSTER_NAME:?required}_mqtt
     image: eclipse-mosquitto
     entrypoint: >
         sh -c "mkdir -p /etc/mosquitto &&
@@ -21,7 +21,7 @@ services:
       - ./ha_server_data/mosquitto/log:/mosquitto/log
 
   zigbee2mqtt:
-    container_name: zigbee2mqtt
+    container_name: ${CLUSTER_NAME:?required}_zigbee2mqtt
     image: koenkk/zigbee2mqtt
     networks:
       - internal
@@ -39,7 +39,7 @@ services:
       - mqtt
 
   zigbee2mqtt_2:
-    container_name: zigbee2mqtt_2
+    container_name: ${CLUSTER_NAME:?required}_zigbee2mqtt_2
     image: koenkk/zigbee2mqtt
     networks:
       - internal
@@ -57,7 +57,7 @@ services:
       - mqtt
 
   webthings-gateway:
-    container_name: webthings-gateway
+    container_name: ${CLUSTER_NAME:?required}_webthings-gateway
     image: webthingsio/gateway:latest
     restart: unless-stopped
     networks:
@@ -76,7 +76,7 @@ services:
         max-file: "10"
 
   node-red:
-    container_name: node-red
+    container_name: ${CLUSTER_NAME:?required}_node-red
     image: nodered/node-red:latest
     restart: unless-stopped
     networks:
@@ -89,7 +89,7 @@ services:
       - ./ha_server_data/nodered_data:/data
 
   influxdb:
-    container_name: influxdb
+    container_name: ${CLUSTER_NAME:?required}_influxdb
     image: influxdb:latest
     restart: unless-stopped
     networks:
@@ -108,7 +108,7 @@ services:
       - "8086:8086"
 
   mdns-reflector:
-    container_name: mdns-reflector
+    container_name: ${CLUSTER_NAME:?required}_mdns-reflector
     image: flungo/avahi
     restart: unless-stopped
     environment:
