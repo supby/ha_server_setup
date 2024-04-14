@@ -87,6 +87,8 @@ services:
       - "1880:1880"
     volumes:
       - ./ha_server_data/nodered_data:/data
+      - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
+      
 
   influxdb:
     container_name: ${CLUSTER_NAME:?required}_influxdb
