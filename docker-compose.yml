@@ -87,6 +87,8 @@ services:
       - "1880:1880"
     volumes:
       - ./ha_server_data/nodered_data:/data
+      - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
+      
 
   influxdb:
     container_name: ${CLUSTER_NAME:?required}_influxdb
@@ -116,7 +118,7 @@ services:
     networks:
       internal:
       physical:
-        # ipv4_address: 10.0.0.10
+        ipv4_address: 192.168.1.199
 
 
 
@@ -132,8 +134,8 @@ networks:
       parent: ${HOST_PHY_INTERFACE:?required}
     ipam:
       config:
-        - subnet: "10.0.0.0/24"
-          gateway: "10.0.0.1"
+        - subnet: "192.168.1.0/24"
+          gateway: "192.168.1.1"
 
     
     
