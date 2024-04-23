@@ -109,6 +109,18 @@ services:
     ports:
       - "8086:8086"
 
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: ${CLUSTER_NAME:?required}_grafana
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./ha_server_data/grafana/config:/etc/grafana
+      - ./ha_server_data/grafana/data:/var/lib/grafana
+    networks:
+      - internal
+
   mdns-reflector:
     container_name: ${CLUSTER_NAME:?required}_mdns-reflector
     image: flungo/avahi
