@@ -8,6 +8,7 @@ mkdir -p ./ha_server_data/webthings
 mkdir -p ./ha_server_data/nodered_data
 mkdir -p ./ha_server_data/grafana/{config,data}
 mkdir -p ./ha_server_data/grafana/{config,data}
+mkdir -p ./ha_server_data/homeassistant
 
 # run docker-compose
 sudo docker-compose up -d

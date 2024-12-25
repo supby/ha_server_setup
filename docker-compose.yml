@@ -132,7 +132,18 @@ services:
       physical:
         ipv4_address: 192.168.1.199
 
-
+  home-assistant:
+    container_name: ${CLUSTER_NAME:?required}_home-assistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+    networks:
+      - internal
+    volumes:
+      - ./ha_server_data/homeassistant:/config
+    environment:
+      - TZ=Europe/Warsaw
 
 networks:
   internal:
