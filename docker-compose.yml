@@ -14,7 +14,7 @@ services:
     networks:
       - internal
     ports:
-      - "1883:1883"
+      - "1884:1884"
     volumes:
       - ./ha_server_data/mosquitto/config:/mosquitto/config
       - ./ha_server_data/mosquitto/data:/mosquitto/data
