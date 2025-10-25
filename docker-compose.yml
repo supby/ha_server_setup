@@ -38,43 +38,6 @@ services:
     depends_on:
       - mqtt
 
-  zigbee2mqtt_2:
-    container_name: ${CLUSTER_NAME:?required}_zigbee2mqtt_2
-    image: koenkk/zigbee2mqtt
-    networks:
-      - internal
-    restart: unless-stopped
-    devices:      
-      - ${Z2M_2_DEV:?required}:/dev/ttyACM0
-    ports:
-      - 8082:8080
-    volumes:
-      - ./ha_server_data/zigbee2mqtt_2_data:/app/data
-      - /run/udev:/run/udev:ro
-    environment:
-      - TZ=Europe/Warsaw
-    depends_on:
-      - mqtt
-
-  webthings-gateway:
-    container_name: ${CLUSTER_NAME:?required}_webthings-gateway
-    image: webthingsio/gateway:latest
-    restart: unless-stopped
-    networks:
-      - internal
-    ports:
-      - "8080:8080"
-      - "4443:4443"
-    environment:
-      - TZ=Europe/Warsaw
-    volumes:
-      - ./ha_server_data/webthings:/home/node/.webthings
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "10"
-
   node-red:
     container_name: ${CLUSTER_NAME:?required}_node-red
     image: nodered/node-red:latest
